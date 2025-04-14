@@ -9,8 +9,10 @@
     body {
       background-image: url('bc1.jpg');
       background-size: cover;
-      background-position: center;
-      font-family: 'UD Digi Kyokasho N-R', sans-serif;$1}
+      background-position: center center;
+      background-repeat: no-repeat;
+      font-family: 'UD Digi Kyokasho N-R', sans-serif;
+    }
     .game {
       display: flex;
       flex-wrap: wrap;
@@ -130,7 +132,8 @@
 
     function startGame() {
       clearInterval(intervalId);
-      document.body.style.backgroundImage = 'none';
+      // 背景画像を消さずに維持するよう変更
+      // document.body.style.backgroundImage = 'none';
       upperRow.innerHTML = '';
       lowerRow.innerHTML = '';
       score = 0;
