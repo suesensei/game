@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>アルファベット神経衰弱</title>
+  <title>大文字小文字マッチングゲーム</title>
   <style>
     body {
       font-family: sans-serif;
@@ -66,7 +66,7 @@
   </style>
 </head>
 <body>
-  <h1>アルファベット神経衰弱</h1>
+  <h1>大文字小文字マッチングゲーム</h1>
   <div id="controls">
     <button onclick="startGame()">スタート</button>
     <button onclick="togglePause()" id="pauseBtn">一時停止</button>
@@ -80,6 +80,8 @@
     <div class="game-row" id="lowerRow"></div>
   </div>
 
+  <audio id="pingSound" src="pinpon.mp3" volume="0.6"></audio>
+
   <script>
     const upperRow = document.getElementById('upperRow');
     const lowerRow = document.getElementById('lowerRow');
@@ -88,6 +90,8 @@
     const mistakeDisplay = document.getElementById('mistakes');
     const pauseBtn = document.getElementById('pauseBtn');
     const restartBtn = document.getElementById('restartBtn');
+    const pingSound = document.getElementById('pingSound');
+    pingSound.volume = 0.6;
 
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let cards = [];
@@ -118,7 +122,6 @@
     }
 
     window.speechSynthesis.onvoiceschanged = () => {
-      // 一度空読み上げして音声エンジンを初期化
       speak('');
     };
 
@@ -185,7 +188,8 @@
         card.textContent = card.dataset.text;
       }
 
-      speak('ピンポーン');
+      pingSound.currentTime = 0;
+      pingSound.play();
 
       if (!firstCard) {
         firstCard = card;
