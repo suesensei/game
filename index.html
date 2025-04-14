@@ -1,18 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=UD+Digi+Kyokasho+N-R&display=swap">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>大文字小文字マッチングゲーム</title>
   <style>
     body {
-      font-family: sans-serif;
-      text-align: center;
-      background-color: white;
-      background-size: cover;
-      background-position: center;
-      transition: background-image 0.5s;
-    }
+      font-family: 'UD Digi Kyokasho N-R', sans-serif;$1}
     .game {
       display: flex;
       flex-wrap: wrap;
@@ -212,7 +207,10 @@
               clearInterval(intervalId);
               const minutes = Math.floor(timer / 60);
               const seconds = timer % 60;
-              speak(`${minutes}分${seconds}秒でクリアしました！`, 'ja-JP');
+              speak('ゲームクリア！おめでとう！がんばったね！', 'ja-JP');
+              setTimeout(() => {
+                speak(`${minutes}分${seconds}秒でクリアしました！`, 'ja-JP');
+              }, 1500);
               document.body.style.backgroundImage = `url('${bgImages[Math.floor(Math.random() * bgImages.length)]}')`;
               setTimeout(() => alert(`クリア！タイム: ${timer}秒、スコア: ${score}`), 500);
             }
