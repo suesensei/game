@@ -207,7 +207,7 @@
               clearInterval(intervalId);
               const minutes = Math.floor(timer / 60);
               const seconds = timer % 60;
-              speak('ゲームクリア！おめでとう！がんばったね！', 'ja-JP');
+              document.getElementById('clearAudio').play();
               setTimeout(() => {
                 speak(`${minutes}分${seconds}秒でクリアしました！`, 'ja-JP');
               }, 1500);
@@ -235,5 +235,6 @@
       }
     }
   </script>
+  <audio id="clearAudio" src="gameclear.mp3"></audio>
 </body>
 </html>
