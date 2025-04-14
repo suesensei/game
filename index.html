@@ -94,6 +94,7 @@
 
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let cards = [];
+    let currentIndex = 0;
     let firstCard = null;
     let lock = false;
     let score = 0;
@@ -103,6 +104,7 @@
     let mistakes = 0;
     let messagePlayed = false;
     const maxMistakes = 5;
+    const setSize = 7;
     const bgImages = [
       'https://cdn.pixabay.com/photo/2017/04/13/21/29/kids-2223656_1280.jpg',
       'https://cdn.pixabay.com/photo/2021/06/23/06/53/dinosaur-6357831_1280.jpg',
@@ -111,7 +113,7 @@
 
     function playLetterSound(letter) {
   letter = letter.toLowerCase();
-  letterAudio.src = `audio/${letter}.mp3`;
+  letterAudio.src = `${letter}.mp3`;
   letterAudio.play();
 }.mp3`;
       letterAudio.play();
@@ -142,6 +144,7 @@
       mistakes = 0;
       paused = false;
       messagePlayed = false;
+      currentIndex = 0;
       pauseBtn.textContent = '一時停止';
       scoreDisplay.textContent = 'スコア: 0';
       timerDisplay.textContent = 'タイマー: 0 秒';
@@ -149,8 +152,8 @@
       restartBtn.style.display = 'none';
       firstCard = null;
       lock = false;
-
       cards = [];
+
       for (let i = 0; i < 26; i++) {
         const upper = letters[i];
         const lower = letters[i].toLowerCase();
@@ -159,8 +162,21 @@
       }
 
       cards = cards.sort(() => Math.random() - 0.5);
+      showNextSet();
 
-      cards.forEach((card) => {
+      intervalId = setInterval(() => {
+        if (!paused) {
+          timer++;
+          timerDisplay.textContent = `タイマー: ${timer} 秒`;
+        }
+      }, 1000);
+    }
+
+    function showNextSet() {
+      upperRow.innerHTML = '';
+      lowerRow.innerHTML = '';
+      const set = cards.slice(currentIndex, currentIndex + setSize * 2);
+      set.forEach(card => {
         const div = document.createElement('div');
         div.classList.add('card');
         div.classList.add(card.isUpper ? 'upper' : 'lower');
@@ -174,13 +190,6 @@
           lowerRow.appendChild(div);
         }
       });
-
-      intervalId = setInterval(() => {
-        if (!paused) {
-          timer++;
-          timerDisplay.textContent = `タイマー: ${timer} 秒`;
-        }
-      }, 1000);
     }
 
     function togglePause() {
@@ -211,25 +220,18 @@
             lock = false;
 
             const remaining = document.querySelectorAll('.card:not(.matched)').length;
-            if (remaining === 10 && !messagePlayed) {
-              speak('残りあとちょっとなので、裏返します。', 'ja-JP');
-              messagePlayed = true;
-              setTimeout(() => {
-                document.querySelectorAll('.card:not(.matched)').forEach(c => {
-                  if (!c.classList.contains('matched')) {
-                    c.textContent = '';
-                  }
-                });
-              }, 1500);
-            }
-
-            if (document.querySelectorAll('.matched').length === cards.length) {
-              clearInterval(intervalId);
-              const minutes = Math.floor(timer / 60);
-              const seconds = timer % 60;
-              speak(`${minutes}分${seconds}秒でクリアしました！`, 'ja-JP');
-              document.body.style.backgroundImage = `url('${bgImages[Math.floor(Math.random() * bgImages.length)]}')`;
-              setTimeout(() => alert(`クリア！タイム: ${timer}秒、スコア: ${score}`), 500);
+            if (remaining === 0) {
+              currentIndex += setSize * 2;
+              if (currentIndex < cards.length) {
+                showNextSet();
+              } else {
+                clearInterval(intervalId);
+                const minutes = Math.floor(timer / 60);
+                const seconds = timer % 60;
+                speak(`${minutes}分${seconds}秒でクリアしました！`, 'ja-JP');
+                document.body.style.backgroundImage = `url('${bgImages[Math.floor(Math.random() * bgImages.length)]}')`;
+                setTimeout(() => alert(`クリア！タイム: ${timer}秒、スコア: ${score}`), 500);
+              }
             }
           }, 500);
         } else {
