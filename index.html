@@ -109,8 +109,18 @@
     function speak(text) {
       const msg = new SpeechSynthesisUtterance(text);
       msg.lang = 'ja-JP';
+      const voices = speechSynthesis.getVoices();
+      const japaneseVoice = voices.find(v => v.lang === 'ja-JP');
+      if (japaneseVoice) {
+        msg.voice = japaneseVoice;
+      }
       window.speechSynthesis.speak(msg);
     }
+
+    window.speechSynthesis.onvoiceschanged = () => {
+      // 一度空読み上げして音声エンジンを初期化
+      speak('');
+    };
 
     function startGame() {
       clearInterval(intervalId);
