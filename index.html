@@ -80,6 +80,8 @@
     <div class="game-row" id="lowerRow"></div>
   </div>
 
+  <audio id="letterAudio"></audio>
+
   <script>
     const upperRow = document.getElementById('upperRow');
     const lowerRow = document.getElementById('lowerRow');
@@ -88,6 +90,7 @@
     const mistakeDisplay = document.getElementById('mistakes');
     const pauseBtn = document.getElementById('pauseBtn');
     const restartBtn = document.getElementById('restartBtn');
+    const letterAudio = document.getElementById('letterAudio');
 
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let cards = [];
@@ -105,6 +108,14 @@
       'https://cdn.pixabay.com/photo/2021/06/23/06/53/dinosaur-6357831_1280.jpg',
       'https://cdn.pixabay.com/photo/2016/05/31/18/54/cartoon-1428435_1280.png'
     ];
+
+    function playLetterSound(letter) {
+  letter = letter.toLowerCase();
+  letterAudio.src = `audio/${letter}.mp3`;
+  letterAudio.play();
+}.mp3`;
+      letterAudio.play();
+    }
 
     function speak(text, lang = 'en-US') {
       const msg = new SpeechSynthesisUtterance(text);
@@ -184,7 +195,7 @@
         card.textContent = card.dataset.text;
       }
 
-      speak(card.dataset.text.toUpperCase(), 'en-US');
+      playLetterSound(card.dataset.text);
 
       if (!firstCard) {
         firstCard = card;
@@ -205,7 +216,9 @@
               messagePlayed = true;
               setTimeout(() => {
                 document.querySelectorAll('.card:not(.matched)').forEach(c => {
-                  c.textContent = '';
+                  if (!c.classList.contains('matched')) {
+                    c.textContent = '';
+                  }
                 });
               }, 1500);
             }
@@ -232,8 +245,6 @@
             return;
           }
           setTimeout(() => {
-            firstCard.textContent = '';
-            card.textContent = '';
             firstCard = null;
             lock = false;
           }, 1000);
