@@ -80,8 +80,6 @@
     <div class="game-row" id="lowerRow"></div>
   </div>
 
-  <audio id="pingSound" src="pinpon.mp3" volume="0.6"></audio>
-
   <script>
     const upperRow = document.getElementById('upperRow');
     const lowerRow = document.getElementById('lowerRow');
@@ -90,8 +88,6 @@
     const mistakeDisplay = document.getElementById('mistakes');
     const pauseBtn = document.getElementById('pauseBtn');
     const restartBtn = document.getElementById('restartBtn');
-    const pingSound = document.getElementById('pingSound');
-    pingSound.volume = 0.6;
 
     const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     let cards = [];
@@ -110,19 +106,19 @@
       'https://cdn.pixabay.com/photo/2016/05/31/18/54/cartoon-1428435_1280.png'
     ];
 
-    function speak(text) {
+    function speak(text, lang = 'en-US') {
       const msg = new SpeechSynthesisUtterance(text);
-      msg.lang = 'ja-JP';
+      msg.lang = lang;
       const voices = speechSynthesis.getVoices();
-      const japaneseVoice = voices.find(v => v.lang === 'ja-JP');
-      if (japaneseVoice) {
-        msg.voice = japaneseVoice;
+      const voice = voices.find(v => v.lang === lang);
+      if (voice) {
+        msg.voice = voice;
       }
       window.speechSynthesis.speak(msg);
     }
 
     window.speechSynthesis.onvoiceschanged = () => {
-      speak('');
+      speak('', 'en-US');
     };
 
     function startGame() {
@@ -188,8 +184,7 @@
         card.textContent = card.dataset.text;
       }
 
-      pingSound.currentTime = 0;
-      pingSound.play();
+      speak(card.dataset.text.toUpperCase(), 'en-US');
 
       if (!firstCard) {
         firstCard = card;
@@ -206,7 +201,7 @@
 
             const remaining = document.querySelectorAll('.card:not(.matched)').length;
             if (remaining === 10 && !messagePlayed) {
-              speak('残りあとちょっとなので、裏返します。');
+              speak('残りあとちょっとなので、裏返します。', 'ja-JP');
               messagePlayed = true;
               setTimeout(() => {
                 document.querySelectorAll('.card:not(.matched)').forEach(c => {
@@ -219,7 +214,7 @@
               clearInterval(intervalId);
               const minutes = Math.floor(timer / 60);
               const seconds = timer % 60;
-              speak(`${minutes}分${seconds}秒でクリアしました！`);
+              speak(`${minutes}分${seconds}秒でクリアしました！`, 'ja-JP');
               document.body.style.backgroundImage = `url('${bgImages[Math.floor(Math.random() * bgImages.length)]}')`;
               setTimeout(() => alert(`クリア！タイム: ${timer}秒、スコア: ${score}`), 500);
             }
@@ -229,7 +224,7 @@
           mistakeDisplay.textContent = `ミス: ${mistakes} / ${maxMistakes}`;
           if (mistakes >= maxMistakes) {
             clearInterval(intervalId);
-            speak('ゲームオーバー');
+            speak('ゲームオーバー', 'ja-JP');
             setTimeout(() => {
               alert(`ゲームオーバー！ミスが ${maxMistakes} 回に達しました。`);
               restartBtn.style.display = 'inline-block';
