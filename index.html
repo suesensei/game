@@ -9,6 +9,10 @@
     body {
       background-image: url('bc1.jpg');
       background-size: cover;
+      background-position: top center;
+      background-repeat: no-repeat;
+      padding-top: 50px;
+      background-size: cover;
       background-position: center center;
       background-repeat: no-repeat;
       font-family: 'UD Digi Kyokasho N-R', sans-serif;
@@ -217,7 +221,8 @@
               setTimeout(() => {
                 speak(`${minutes}分${seconds}秒でクリアしました！`, 'ja-JP');
               }, 1500);
-              document.body.style.backgroundImage = `url('${bgImages[Math.floor(Math.random() * bgImages.length)]}')`;
+              // document.body.style.backgroundImage は固定背景に変更済みのため削除または無効化
+              // document.body.style.backgroundImage = `url('${bgImages[Math.floor(Math.random() * bgImages.length)]}')`;
               setTimeout(() => alert(`クリア！タイム: ${timer}秒、スコア: ${score}`), 500);
             }
           }, 500);
