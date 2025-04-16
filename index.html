@@ -113,8 +113,7 @@
   <script>
     const upperRow = document.getElementById('upperRow');
     const lowerRow = document.getElementById('lowerRow');
-    const scoreDisplay = document.getElementById('score');
-    const timerDisplay = document.getElementById('timer');
+        const timerDisplay = document.getElementById('timer');
     const mistakeDisplay = document.getElementById('mistakes');
     const pauseBtn = document.getElementById('pauseBtn');
     const restartBtn = document.getElementById('restartBtn');
@@ -243,8 +242,7 @@
             }, 1500);
           }
           score++;
-          scoreDisplay.textContent = `スコア: ${score}`;
-          setTimeout(() => {
+                    setTimeout(() => {
             firstCard.classList.add('matched');
             card.classList.add('matched');
             firstCard = null;
