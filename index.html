@@ -95,7 +95,7 @@
 <body>
   <h1 style="background: rgba(255,255,255,0.8); padding: 10px 20px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">大文字小文字マッチングゲーム</h1>
   <div id="controls">
-    <button onclick="startGame()">スタート</button>
+    <button onclick="startGame()" style="background-color: #ffcc00; color: #000; font-weight: bold; padding: 10px 20px; border: none; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); font-size: 18px; cursor: pointer;">スタート</button>
     <button onclick="togglePause()" id="pauseBtn">一時停止</button>
     <div id="score">スコア: 0</div>
     <div id="timer">タイマー: 0 秒</div>
@@ -232,6 +232,16 @@
       } else {
         lock = true;
         if (firstCard.dataset.matchKey === card.dataset.matchKey && firstCard !== card) {
+          const remainingCards = document.querySelectorAll('.card:not(.matched)').length;
+          if (remainingCards <= 10 && !messagePlayed) {
+            speak('カードが少なくなったので裏返します', 'ja-JP');
+            messagePlayed = true;
+            setTimeout(() => {
+              document.querySelectorAll('.card:not(.matched)').forEach(c => {
+                c.textContent = '';
+              });
+            }, 1500);
+          }
           score++;
           scoreDisplay.textContent = `スコア: ${score}`;
           setTimeout(() => {
