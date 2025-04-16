@@ -189,15 +189,7 @@
 
       cards = cards.sort(() => Math.random() - 0.5);
 
-      // 全て最初からめくっておく
-      setTimeout(() => {
-        document.querySelectorAll('.card').forEach(c => {
-          c.textContent = c.dataset.text;
-          c.style.color = '#000';
-          c.style.backgroundImage = 'none';
-          c.style.backgroundColor = c.classList.contains('upper') ? '#fdd' : '#dfd';
-        });
-      }, 0);
+      
 
       cards.forEach((card) => {
         const div = document.createElement('div');
@@ -206,6 +198,9 @@
         div.dataset.text = card.text;
         div.dataset.matchKey = card.matchKey;
         div.textContent = card.text;
+        div.style.color = '#000';
+        div.style.backgroundImage = 'none';
+        div.style.backgroundColor = card.isUpper ? '#fdd' : '#dfd';
         div.addEventListener('click', () => flipCard(div));
         if (card.isUpper) {
           upperRow.appendChild(div);
