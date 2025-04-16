@@ -247,21 +247,18 @@
             speak('カードが少なくなったので裏返します', 'ja-JP');
             messagePlayed = true;
             setTimeout(() => {
-              document.querySelectorAll('.card:not(.matched)').forEach(c => {
-                c.textContent = '';
+            document.querySelectorAll('.card:not(.matched)').forEach(c => {
+              c.textContent = '';
               c.style.color = 'transparent';
               if (c.classList.contains('upper')) {
                 c.style.backgroundImage = "url('red.png')";
               } else {
                 c.style.backgroundImage = "url('green.png')";
               }
-                c.style.color = 'transparent';
-                if (c.classList.contains('upper')) {
-                  c.style.backgroundImage = "url('red.png')";
-                } else {
-                  c.style.backgroundImage = "url('green.png')";
-                }
-              });
+            });
+            firstCard = null;
+            lock = false;
+          }, 1000);
             }, 1500);
           }
                               setTimeout(() => {
