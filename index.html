@@ -51,11 +51,13 @@
       background-image: url('red.png');
       background-size: cover;
       background-position: center;
+      color: transparent;
     }
     .card.lower {
       background-image: url('green.png');
       background-size: cover;
       background-position: center;
+      color: transparent;
     }
     .matched {
       pointer-events: none;
@@ -221,6 +223,8 @@
 
       if (!card.textContent) {
         card.textContent = card.dataset.text;
+        card.style.color = card.classList.contains('upper') ? '#e88' : '#8c8';
+        card.style.backgroundImage = 'none';
       }
 
       document.getElementById('pinponAudio').play();
@@ -240,6 +244,18 @@
             setTimeout(() => {
               document.querySelectorAll('.card:not(.matched)').forEach(c => {
                 c.textContent = '';
+              c.style.color = 'transparent';
+              if (c.classList.contains('upper')) {
+                c.style.backgroundImage = "url('red.png')";
+              } else {
+                c.style.backgroundImage = "url('green.png')";
+              }
+                c.style.color = 'transparent';
+                if (c.classList.contains('upper')) {
+                  c.style.backgroundImage = "url('red.png')";
+                } else {
+                  c.style.backgroundImage = "url('green.png')";
+                }
               });
             }, 1500);
           }
