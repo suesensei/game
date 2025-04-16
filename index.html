@@ -305,10 +305,14 @@
             return;
           }
           setTimeout(() => {
-            // すべて裏返し直す処理が必要な場合
             document.querySelectorAll('.card:not(.matched)').forEach(c => {
-              if (!c.classList.contains('matched')) {
-                c.textContent = '';
+              c.textContent = '';
+              c.style.color = 'transparent';
+              if (c.classList.contains('upper')) {
+                c.style.backgroundImage = "url('red.png')";
+              } else {
+                c.style.backgroundImage = "url('green.png')";
+              }
               }
             });
             firstCard = null;
