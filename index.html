@@ -51,13 +51,15 @@
       background-image: url('red.png');
       background-size: cover;
       background-position: center;
-      color: transparent;
+      background-color: #fdd;
+      color: #000;
     }
     .card.lower {
       background-image: url('green.png');
       background-size: cover;
       background-position: center;
-      color: transparent;
+      background-color: #dfd;
+      color: #000;
     }
     .matched {
       pointer-events: none;
@@ -190,6 +192,16 @@
 
       cards = cards.sort(() => Math.random() - 0.5);
 
+      // 全て最初からめくっておく
+      setTimeout(() => {
+        document.querySelectorAll('.card').forEach(c => {
+          c.textContent = c.dataset.text;
+          c.style.color = '#000';
+          c.style.backgroundImage = 'none';
+          c.style.backgroundColor = c.classList.contains('upper') ? '#fdd' : '#dfd';
+        });
+      }, 0);
+
       cards.forEach((card) => {
         const div = document.createElement('div');
         div.classList.add('card');
@@ -223,8 +235,9 @@
 
       if (!card.textContent) {
         card.textContent = card.dataset.text;
-        card.style.color = card.classList.contains('upper') ? '#e88' : '#8c8';
+        card.style.color = '#000';
         card.style.backgroundImage = 'none';
+        card.style.backgroundColor = card.classList.contains('upper') ? '#fdd' : '#dfd';
       }
 
       document.getElementById('pinponAudio').play();
