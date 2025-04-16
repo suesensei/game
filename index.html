@@ -48,10 +48,14 @@
       border: 2px solid #888;
     }
     .card.upper {
-      background-color: #fdd;
+      background-image: url('red.png');
+      background-size: cover;
+      background-position: center;
     }
     .card.lower {
-      background-color: #dfd;
+      background-image: url('green.png');
+      background-size: cover;
+      background-position: center;
     }
     .matched {
       pointer-events: none;
@@ -256,7 +260,7 @@
               }, 1500);
               // document.body.style.backgroundImage は固定背景に変更済みのため削除または無効化
               // document.body.style.backgroundImage = `url('${bgImages[Math.floor(Math.random() * bgImages.length)]}')`;
-              setTimeout(() => alert(`クリア！タイム: ${timer}秒、スコア: ${score}`), 500);
+              setTimeout(() => alert(`クリア！タイム: ${timer}秒`), 500);
             }
           }, 500);
         } else {
