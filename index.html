@@ -95,9 +95,7 @@
         font-weight: bold;
         border-radius: 6px;
       }
-    }
-    }
-    }
+      }
   </style>
 </head>
 <body>
@@ -175,7 +173,7 @@
       paused = false;
       messagePlayed = false;
       pauseBtn.textContent = '一時停止';
-            timerDisplay.textContent = 'タイマー: 0 秒';
+            timerDisplay.textContent = 'タイム: 0 秒';
       mistakeDisplay.textContent = `ミス: 0 / ${maxMistakes}`;
       restartBtn.style.display = 'none';
       firstCard = null;
@@ -219,7 +217,7 @@
       intervalId = setInterval(() => {
         if (!paused) {
           timer++;
-          timerDisplay.textContent = `タイマー: ${timer} 秒`;
+          timerDisplay.textContent = `タイム: ${timer} 秒`;
         }
       }, 1000);
     }
