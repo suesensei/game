@@ -223,95 +223,88 @@
     }
 
     function flipCard(card) {
-      if (lock || card.classList.contains('matched') || paused) return;
+  if (lock || card.classList.contains('matched') || paused) return;
 
-      if (!card.textContent) {
-        card.textContent = card.dataset.text;
-        card.style.color = '#000';
-        card.style.backgroundImage = 'none';
-        card.style.backgroundColor = card.classList.contains('upper') ? '#fdd' : '#dfd';
-      }
+  if (!card.textContent) {
+    card.textContent = card.dataset.text;
+    card.style.color = '#000';
+    card.style.backgroundImage = 'none';
+    card.style.backgroundColor = card.classList.contains('upper') ? '#fdd' : '#dfd';
+  }
 
-      document.getElementById('pinponAudio').play();
-      setTimeout(() => {
-        playLetterSound(card.dataset.text);
-      }, 200);
+  document.getElementById('pinponAudio').play();
+  setTimeout(() => {
+    playLetterSound(card.dataset.text);
+  }, 200);
 
-      if (!firstCard) {
-        firstCard = card;
-      } else {
-        lock = true;
-        if (firstCard.dataset.matchKey === card.dataset.matchKey && firstCard !== card) {
-          const remainingCards = document.querySelectorAll('.card:not(.matched)').length;
-          if (remainingCards <= 10 && !messagePlayed) {
-            speak('カードが少なくなったので裏返します', 'ja-JP');
-            messagePlayed = true;
-            setTimeout(() => {
-              document.querySelectorAll('.card:not(.matched)').forEach(c => {
-                c.textContent = '';
-                c.style.color = 'transparent';
-                if (c.classList.contains('upper')) {
-                  c.style.backgroundImage = "url('red.png')";
-                } else {
-                  c.style.backgroundImage = "url('green.png')";
-                }
-              });
-              firstCard = null;
-              lock = false;
-            }, 1000);
-            firstCard = null;
-            lock = false;
-          }, 1000);
-            }, 1500);
-          }
-                              setTimeout(() => {
-            firstCard.classList.add('matched');
-            card.classList.add('matched');
-            firstCard = null;
-            lock = false;
-
-            if (document.querySelectorAll('.matched').length === cards.length) {
-              clearInterval(intervalId);
-              const minutes = Math.floor(timer / 60);
-              const seconds = timer % 60;
-              document.getElementById('clearAudio').play();
-              setTimeout(() => {
-                speak(`${minutes}分${seconds}秒でクリアしました！`, 'ja-JP');
-              }, 1500);
-              // document.body.style.backgroundImage は固定背景に変更済みのため削除または無効化
-              // document.body.style.backgroundImage = `url('${bgImages[Math.floor(Math.random() * bgImages.length)]}')`;
-              setTimeout(() => alert(`クリア！タイム: ${timer}秒`), 500);
+  if (!firstCard) {
+    firstCard = card;
+  } else {
+    lock = true;
+    if (firstCard.dataset.matchKey === card.dataset.matchKey && firstCard !== card) {
+      const remainingCards = document.querySelectorAll('.card:not(.matched)').length;
+      if (remainingCards <= 10 && !messagePlayed) {
+        speak('カードが少なくなったので裏返します', 'ja-JP');
+        messagePlayed = true;
+        setTimeout(() => {
+          document.querySelectorAll('.card:not(.matched)').forEach(c => {
+            c.textContent = '';
+            c.style.color = 'transparent';
+            if (c.classList.contains('upper')) {
+              c.style.backgroundImage = "url('red.png')";
+            } else {
+              c.style.backgroundImage = "url('green.png')";
             }
-          }, 500);
-        } else {
-          mistakes++;
-          mistakeDisplay.textContent = `ミス: ${mistakes} / ${maxMistakes}`;
-          if (mistakes >= maxMistakes) {
-            clearInterval(intervalId);
-            speak('ゲームオーバー', 'ja-JP');
-            setTimeout(() => {
-              alert(`ゲームオーバー！ミスが ${maxMistakes} 回に達しました。`);
-              restartBtn.style.display = 'inline-block';
-            }, 300);
-            return;
-          }
-          setTimeout(() => {
-            document.querySelectorAll('.card:not(.matched)').forEach(c => {
-              c.textContent = '';
-              c.style.color = 'transparent';
-              if (c.classList.contains('upper')) {
-                c.style.backgroundImage = "url('red.png')";
-              } else {
-                c.style.backgroundImage = "url('green.png')";
-              }
-              }
-            });
-            firstCard = null;
-            lock = false;
-          }, 1000);
-        }
+          });
+        }, 1000);
       }
+
+      setTimeout(() => {
+        firstCard.classList.add('matched');
+        card.classList.add('matched');
+        firstCard = null;
+        lock = false;
+
+        if (document.querySelectorAll('.matched').length === cards.length) {
+          clearInterval(intervalId);
+          const minutes = Math.floor(timer / 60);
+          const seconds = timer % 60;
+          document.getElementById('clearAudio').play();
+          setTimeout(() => {
+            speak(`${minutes}分${seconds}秒でクリアしました！`, 'ja-JP');
+          }, 1500);
+          setTimeout(() => alert(`クリア！タイム: ${timer}秒`), 500);
+        }
+      }, 500);
+    } else {
+      mistakes++;
+      mistakeDisplay.textContent = `ミス: ${mistakes} / ${maxMistakes}`;
+      if (mistakes >= maxMistakes) {
+        clearInterval(intervalId);
+        speak('ゲームオーバー', 'ja-JP');
+        setTimeout(() => {
+          alert(`ゲームオーバー！ミスが ${maxMistakes} 回に達しました。`);
+          restartBtn.style.display = 'inline-block';
+        }, 300);
+        return;
+      }
+
+      setTimeout(() => {
+        document.querySelectorAll('.card:not(.matched)').forEach(c => {
+          c.textContent = '';
+          c.style.color = 'transparent';
+          if (c.classList.contains('upper')) {
+            c.style.backgroundImage = "url('red.png')";
+          } else {
+            c.style.backgroundImage = "url('green.png')";
+          }
+        });
+        firstCard = null;
+        lock = false;
+      }, 1000);
     }
+  }
+}
   </script>
   <audio id="clearAudio" src="gameclear.mp3"></audio>
 </body>
