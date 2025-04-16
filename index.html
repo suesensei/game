@@ -123,8 +123,7 @@
     let cards = [];
     let firstCard = null;
     let lock = false;
-    let score = 0;
-    let timer = 0;
+        let timer = 0;
     let intervalId = null;
     let paused = false;
     let mistakes = 0;
@@ -169,8 +168,7 @@
       paused = false;
       messagePlayed = false;
       pauseBtn.textContent = '一時停止';
-      scoreDisplay.textContent = 'スコア: 0';
-      timerDisplay.textContent = 'タイマー: 0 秒';
+            timerDisplay.textContent = 'タイマー: 0 秒';
       mistakeDisplay.textContent = `ミス: 0 / ${maxMistakes}`;
       restartBtn.style.display = 'none';
       firstCard = null;
