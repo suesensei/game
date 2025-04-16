@@ -276,6 +276,12 @@
             return;
           }
           setTimeout(() => {
+            // すべて裏返し直す処理が必要な場合
+            document.querySelectorAll('.card:not(.matched)').forEach(c => {
+              if (!c.classList.contains('matched')) {
+                c.textContent = '';
+              }
+            });
             firstCard = null;
             lock = false;
           }, 1000);
