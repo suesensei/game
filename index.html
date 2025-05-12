@@ -289,17 +289,13 @@
         return;
       }
 
+
+      // 2 枚はそのまま表向きに残す
       setTimeout(() => {
-  // 直前に選んだ 2 枚だけを裏返す
-  [firstCard, card].forEach(c => {
-    c.textContent = '';
-    c.style.color = 'transparent';
-    c.style.backgroundImage = c.classList.contains('upper')
-      ? "url('red.png')" : "url('green.png')";
-  });
-  firstCard = null;
-  lock = false;
-}, 1000);
+        firstCard = null;   // 選択状態をリセット
+        lock = false;       // 次のクリックを許可
+      }, 500);              // 少し間を置くだけでOK
+
 
     }
   }
