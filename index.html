@@ -290,18 +290,17 @@
       }
 
       setTimeout(() => {
-        document.querySelectorAll('.card:not(.matched)').forEach(c => {
-          c.textContent = '';
-          c.style.color = 'transparent';
-          if (c.classList.contains('upper')) {
-            c.style.backgroundImage = "url('red.png')";
-          } else {
-            c.style.backgroundImage = "url('green.png')";
-          }
-        });
-        firstCard = null;
-        lock = false;
-      }, 1000);
+  // 直前に選んだ 2 枚だけを裏返す
+  [firstCard, card].forEach(c => {
+    c.textContent = '';
+    c.style.color = 'transparent';
+    c.style.backgroundImage = c.classList.contains('upper')
+      ? "url('red.png')" : "url('green.png')";
+  });
+  firstCard = null;
+  lock = false;
+}, 1000);
+
     }
   }
 }
